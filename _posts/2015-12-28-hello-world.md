@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Let's start a blog
+comments: true
 ---
 
 Reddit recently [announced](https://www.reddit.com/r/redditdev/comments/3xdf11/introducing_new_api_terms/) they are giving developers until March 17th to move to OAuth2. Originally, the deadline was [August 3rd](https://www.reddit.com/r/redditdev/comments/2ujhkr/important_api_licensing_terms_clarified/) (oops), but I guess they decided to push it back (yay.) My iOS app [Subdit](https://itunes.apple.com/us/app/subdit-r-random-browser-for/id913001545?mt=8) uses [RedditKit](https://redditkit.com/) which at the time of this writing does not support OAuth2 (but has an [open issue](https://github.com/samsymons/RedditKit/issues/61) to add it.)
@@ -27,7 +28,7 @@ So let's start a blog.
 
 ### What was I doing again?
 
-Oh, right. Ionic. Well, instead of updating the commandline tools, I now have 10 tabs open for github pages, jekyll, and [setting up a separate environment for ruby on OSX](https://www.iocaine.org/posts/getting-started-with-github-pages-and-jekyll-on-osx.html) because apparently I'm installing gems wrong too.
+Oh, right. Ionic. Well, instead of updating the commandline tools, I now have several tabs open for [creating a blog](http://joshualande.com/jekyll-github-pages-poole/), [github pages](https://pages.github.com/), [jekyll](https://jekyllrb.com/), and [setting up a separate environment for ruby on OSX](https://www.iocaine.org/posts/getting-started-with-github-pages-and-jekyll-on-osx.html) because apparently I'm installing gems wrong too.
 
 If you are reading this, then we've successfully **started a blog**!
 
