@@ -18,7 +18,7 @@ So what does any of this have to do with writing a blog? Well, apparently I'm us
 
 ### Sudo all the things.
 
-The first step is to update my install of the ionic commandline tools. The README says OSX users will need to **sudo** install it globally. But then you notice the following nagging remark
+The first step is to update my install of the ionic commandline tools. The [README](https://github.com/driftyco/ionic-cli#installing) says OSX users will need to **sudo** install it globally. But then you notice the following nagging remark
 
 > or users can [setup proper file permissions on OSX for npm](http://www.johnpapa.net/how-to-use-npm-global-without-sudo-on-osx/) to install without sudo.
 
