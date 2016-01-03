@@ -61,4 +61,4 @@ My service then just dumps the `kid-map.json` service which now has the last fee
  }
 ```
 
-Stay tuned for [Part 2]({% post_url 2015-1-3-twin-feed-monitor-part2 %}) where I create the ionic app to display the dashboard.
+Stay tuned for Part 2 where I create the ionic app to display the dashboard.
