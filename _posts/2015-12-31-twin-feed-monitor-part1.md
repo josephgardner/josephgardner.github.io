@@ -70,7 +70,7 @@ I used the [h2o2](https://github.com/hapijs/h2o2) proxy plugin to accept a `GET 
 
 The response body includes any new entries for each kid since the specified `last` entry. I update the `kid-map.json` with these values to be used in the next call. I also store the feeding data.
 
-My service then just dumps the `kid-map.json` service which now has the last feeding entry for each kid. This is much easier to consume than having to deal with auth and the sync logic. Every time you call my service, you are guaranteed to just get the last feeding entry for each kid.
+My service then just dumps the `kid-map.json` file which now has the last feeding entry for each kid. This is much easier to consume than having to deal with auth and the sync logic. Every time you call my service, you are guaranteed to just get the last feeding entry for each kid.
 
 ```json
 {
