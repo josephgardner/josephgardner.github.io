@@ -32,9 +32,41 @@ The easiest way I know to spin up a simple rest service is to use [hapi.js](http
 
 #### Creating the Service
 
-You can find the server code [here](https://github.com/josephgardner/feed-timer/tree/master/src/proxy). Each kid is given a unique ID which you can set in the `config.json`. The service I'm calling is used for synchronization, so for each kid, you essentially need to ACK the ID of the last entry you received. I accomplished this by seeding a `/persist/kid-map.json` lookup file with a `last` property. Then you zip the 2 values together in the query string like so:
+You can find the server code [here](https://github.com/josephgardner/feed-timer/tree/master/src/proxy).
 
-`&kids=<kid1-id>,<kid1-last>,<kid2>,<kid2-last>`
+Each kid is given a unique ID which I made configurable in a `config.json`.
+
+```json
+{
+    "uri": "https://seacloud-2.appspot.com/CmdListI?cmd=StatusList&lg=en",
+    "username": "...",
+    "password": "...",
+    "kids": [
+        {
+            "id": "<kid1-id>",
+            "name": "Baby A"
+        },
+        {
+            "id": "<kid2-id>",
+            "name": "Baby B"
+        }
+    ]
+}
+
+```
+
+The service I'm calling is used for synchronization, so for each kid, you essentially need to ACK the ID of the last entry you received. I accomplished this by seeding a [node-persist](https://github.com/simonlast/node-persist) `/persist/kid-map.json` lookup file with an initial `last` property. I sniffed these values using mitmproxy.
+
+```json
+{
+  "<kid1-id>": { "last": "<kid1-last>" },
+  "<kid2-id>": { "last": "<kid2-last>" }
+}
+```
+
+I used the [h2o2](https://github.com/hapijs/h2o2) proxy plugin to accept a `GET \` request which internally makes a `POST` to the sync service. To request new entries, you zip the 2 values together in the query string like so:
+
+`config.uri` + `&kids=<kid1-id>,<kid1-last>,<kid2>,<kid2-last>`
 
 The response body includes any new entries for each kid since the specified `last` entry. I update the `kid-map.json` with these values to be used in the next call. I also store the feeding data.
 
@@ -43,7 +75,7 @@ My service then just dumps the `kid-map.json` service which now has the last fee
 ```json
 {
   "<kid1-id>": {
-    "last": "<kid1-last>",
+    "last": "<new-kid1-last>",
     "item": {
       ...
       "e": "1/3/2016 12:07",
@@ -51,7 +83,7 @@ My service then just dumps the `kid-map.json` service which now has the last fee
     }
   },
   "<kid2-id>": {
-    "last": "<kid2-last>",
+    "last": "<new-kid2-last>",
     "item": {
       ...
       "e": "1/3/2016 12:37",
@@ -60,5 +92,7 @@ My service then just dumps the `kid-map.json` service which now has the last fee
   }
  }
 ```
+
+Finally, I used [pm2](http://pm2.keymetrics.io/) to keep the service running. The one issue I'm having is I can't get the startup script to work correctly. When I reboot the server, the script appears to run, but I get a `connection refused` when hitting it. It starts working if I manually restart the service. Anyone know what I'm doing wrong?
 
 Stay tuned for Part 2 where I create the ionic app to display the dashboard.
