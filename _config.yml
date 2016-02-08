@@ -2,7 +2,7 @@
 markdown:         redcarpet
 redcarpet:
   extensions: ["no_intra_emphasis", "tables", "autolink", "strikethrough", "with_toc_data"]
-highlighter:      pygments
+highlighter:      rouge
 
 # Permalinks
 permalink:        pretty
