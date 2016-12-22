@@ -131,7 +131,7 @@ Another point worth mentioning is that the docker daemon would not start on my W
 
 ![homer scare](https://cloud.githubusercontent.com/assets/1297859/21413862/7a260460-c7c8-11e6-8ffd-aa3f161c141b.gif)
 
-#### Let's try again...
+### Let's try again...
 
 Now that our client is configured to trust our insecure registry, let's try the push again.
 
