@@ -3,6 +3,7 @@ layout: post
 title: Service Fabric Windows Container
 comments: true
 ---
+
 I've been playing with [Azure Service Fabric](https://azure.microsoft.com/en-us/services/service-fabric/) and testing out 
 the [latest preview](https://blogs.msdn.microsoft.com/azureservicefabric/2016/12/15/release-of-sdk-2-4-145-and-runtime-5-4-145-for-windows/) 
 with Windows container support. My goal is to deploy a stateless OWIN self-hosted Web API in a container to
@@ -89,6 +90,7 @@ ENTRYPOINT ["cmd.exe", "/k", "ColorPicker.exe"]
 ```
 
 ## Docker Registry
+
 The service manifest only lets you specify the name of the container, which means you have to deploy it to a registry. I don't
 want to push anything to DockerHub, so instead I decided to give [Docker Registry](https://docs.docker.com/registry/) a try.
 
@@ -112,12 +114,15 @@ This surprisingly worked, but gave me a TLS error:
 The push refers to a repository [10.211.55.2:5000/colorpicker]
 Get https://10.211.55.2:5000/v2/: http: server gave HTTP response to HTTPS client
 ```
+
 ### Make it insecure
+
 It turns out the docker client requires TLS by default, but the docs also [explain how to run it insecurely](https://docs.docker.com/registry/insecure/) for testing. To disable security, you have to edit the docker config file on the client, and whitelist the insecure registry you want to connect to.
 
 The instructions tell you to edit the docker file directly, which only applies to \*nix clients. I dug a little deeper into how to configure this for both Docker for Mac and Windows.
 
 #### Docker for Mac
+
 Docker for Mac provisions a HyperKit VM based on Alpine Linux. They do some interesting stuff with git to modify files in the docker app (such as a daemon.json file,) and then reload the VM. However, they have since added an option in the advanced settings dialog to add **insecure registries**.
 
 ![mac settings](https://cloud.githubusercontent.com/assets/1297859/21413186/810a81c0-c7c3-11e6-8dd1-40d8ee2e7f7b.png)
@@ -131,6 +136,7 @@ $ screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-lin
 ```
 
 #### Docker for Windows
+
 Docker for Windows lets you run Linux containers on Windows 10 by provisioning a minimal Linux VM using Hyper-V. I'm not aware of any way to access the host environment, and the stable version of docker does not expose any settings to configure the docker file. 
 
 But I want to push my *windows* container, not a *linux* container. Why would I need Docker for Windows? As luck would have it, I needed to install the beta release in order to get the option to switch between linux and windows containers. The beta settings dialog includes daemon options which lets you set **insecure registries**. This is not currently available in the stable release. 
