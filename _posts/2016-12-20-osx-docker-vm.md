@@ -13,6 +13,7 @@ as the color changes from blue to red in several load-balanced clients.
 ![rolling upgrade](https://cloud.githubusercontent.com/assets/1297859/21374753/153a4a92-c6f7-11e6-8837-1d1ba4926890.png)
 
 **Program.cs**
+
 ```cs
 using Microsoft.Owin.Hosting;
 using System;
@@ -37,6 +38,7 @@ namespace ColorPicker
 ```
 
 **Startup.cs**
+
 ```cs
 using Owin;
 using System.Web.Http;
@@ -61,6 +63,7 @@ namespace ColorPicker
 ```
 
 **ColorController.cs**
+
 ```cs
 using System.Web.Http;
 
@@ -75,7 +78,9 @@ namespace ColorPicker
     }
 }
 ```
+
 **Dockerfile**
+
 ```sh
 FROM microsoft/windowsservercore
 ADD . /app
