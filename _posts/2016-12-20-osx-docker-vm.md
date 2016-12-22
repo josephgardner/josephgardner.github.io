@@ -7,6 +7,78 @@ as the color changes from blue to red in several load-balanced clients.
 
 ![rolling upgrade](https://cloud.githubusercontent.com/assets/1297859/21374753/153a4a92-c6f7-11e6-8837-1d1ba4926890.png)
 
+**Program.cs**
+```cs
+using Microsoft.Owin.Hosting;
+using System;
+using System.Threading;
+
+namespace ColorPicker
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string baseAddress = "http://*:80/";
+
+            using (WebApp.Start<Startup>(url: baseAddress))
+            {
+                Console.WriteLine($"ColorPicker listening at {baseAddress}");
+                Thread.Sleep(Timeout.Infinite);
+            }
+        }
+    }
+}
+```
+
+**Startup.cs**
+```cs
+using Owin;
+using System.Web.Http;
+
+namespace ColorPicker
+{
+    public class Startup
+    {
+        public void Configuration(IAppBuilder app)
+        {
+            HttpConfiguration config = new HttpConfiguration();
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
+            app.UseWebApi(config);
+        }
+    }
+}
+```
+
+**ColorController.cs**
+```cs
+using System.Web.Http;
+
+namespace ColorPicker
+{
+    public class ColorController : ApiController
+    {
+        public string Get()
+        {
+            return "#0000FF";
+        }
+    }
+}
+```
+**Dockerfile**
+```sh
+FROM microsoft/windowsservercore
+ADD . /app
+WORKDIR /app
+ENTRYPOINT ["cmd.exe", "/k", "ColorPicker.exe"]
+```
+
+## Docker Registry
 The service manifest only lets you specify the name of the container, which means you have to deploy it to a registry. I don't
 want to push anything to DockerHub, so instead I decided to give [Docker Registry](https://docs.docker.com/registry/) a try.
 
@@ -24,13 +96,13 @@ This surprisingly worked, but gave me a TLS error:
 The push refers to a repository [10.211.55.2:5000/colorpicker]
 Get https://10.211.55.2:5000/v2/: http: server gave HTTP response to HTTPS client
 ```
+### Test an insecure registry
+It turns out the docker client requires TLS by default, but the docs also [explain how to run it insecurely](https://docs.docker.com/registry/insecure/) for testing. To disable security, you have to edit the docker config file on the client.
 
-It turns out the docker client requires TLS by default, but the docs also [explain how to run it insecurely](https://docs.docker.com/registry/insecure/) for testing. To disable security, you have to edit the docker config file on the client. 
+The instructions tell you to edit the docker file directly, which only applies to \*nix clients. I dug a little deeper into how to fix this for both Docker for Mac and Windows.
 
-----
-*Note for Mac users trying to connect to an insecure registry*:
-
-The instructions tell you to edit the docker file directly. **Docker for Mac** provisions a HyperKit VM based on Alpine Linux, and so the docker file isn't directly available. They do some interesting stuff with git to modify files in the docker app, and then reload the VM. However, they have since added an option in advanced settings to add **insecure registries**.
+#### Docker for Mac
+Docker for Mac provisions a HyperKit VM based on Alpine Linux. They do some interesting stuff with git to modify files in the docker app (such as the docker file,) and then reload the VM. However, they have since added an option in advanced settings to add **insecure registries**.
 
 If you still wish to connect to the host (for debugging, or other reason,) you have to use `screen` rather than `ssh`. Found that little nugget on [this blog](https://blog.bennycornelissen.nl/docker-for-mac-neat-fast-and-flawed/).
 
@@ -40,4 +112,7 @@ Press enter to get a prompt. Disconnect with ctrl+a d.
 $ screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty
 ```
 
----
+#### Docker for Windows
+Docker for Windows lets you run Linux containers on Windows 10 by provisioning a minimal Linux VM using Hyper-V. I'm not aware of any way to access the host environment, and the stable version of docker does not expose any settings to configure the docker file. 
+
+As luck would have it, I needed to install the beta release in order to get the option to switch between linux and windows containers. The beta settings dialog includes daemon options which lets you set **insecure registries**.
