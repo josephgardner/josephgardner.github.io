@@ -123,9 +123,13 @@ $ screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-lin
 #### Docker for Windows
 Docker for Windows lets you run Linux containers on Windows 10 by provisioning a minimal Linux VM using Hyper-V. I'm not aware of any way to access the host environment, and the stable version of docker does not expose any settings to configure the docker file. 
 
-As luck would have it, I needed to install the beta release in order to get the option to switch between linux and windows containers. The beta settings dialog includes daemon options which lets you set **insecure registries**.
+But I want to push my *windows* container, not a *linux* container. Why would I need Docker for Windows? As luck would have it, I needed to install the beta release in order to get the option to switch between linux and windows containers. The beta settings dialog includes daemon options which lets you set **insecure registries**. This is not currently available in the stable release. 
 
 ![windows settings](https://cloud.githubusercontent.com/assets/1297859/21413184/7aea2f66-c7c3-11e6-8596-79e131e23490.png)
+
+Another point worth mentioning is that the docker daemon would not start on my Windows VM when set to use linux containers, which has something to do with nested virtualization (running a VM inside a VM.) Since I don't really care about linux containers at the moment, I simply switched to windows containers, and slowly backed into the bushes.  
+
+![homer scare](https://cloud.githubusercontent.com/assets/1297859/21413862/7a260460-c7c8-11e6-8ffd-aa3f161c141b.gif)
 
 #### Let's try again...
 
