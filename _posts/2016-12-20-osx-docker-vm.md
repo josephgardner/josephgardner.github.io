@@ -104,6 +104,8 @@ The instructions tell you to edit the docker file directly, which only applies t
 #### Docker for Mac
 Docker for Mac provisions a HyperKit VM based on Alpine Linux. They do some interesting stuff with git to modify files in the docker app (such as the docker file,) and then reload the VM. However, they have since added an option in advanced settings to add **insecure registries**.
 
+![mac settings](https://cloud.githubusercontent.com/assets/1297859/21413186/810a81c0-c7c3-11e6-8dd1-40d8ee2e7f7b.png)
+
 If you still wish to connect to the host (for debugging, or other reason,) you have to use `screen` rather than `ssh`. Found that little nugget on [this blog](https://blog.bennycornelissen.nl/docker-for-mac-neat-fast-and-flawed/).
 
 Press enter to get a prompt. Disconnect with ctrl+a d.
@@ -116,3 +118,5 @@ $ screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-lin
 Docker for Windows lets you run Linux containers on Windows 10 by provisioning a minimal Linux VM using Hyper-V. I'm not aware of any way to access the host environment, and the stable version of docker does not expose any settings to configure the docker file. 
 
 As luck would have it, I needed to install the beta release in order to get the option to switch between linux and windows containers. The beta settings dialog includes daemon options which lets you set **insecure registries**.
+
+![windows settings](https://cloud.githubusercontent.com/assets/1297859/21413184/7aea2f66-c7c3-11e6-8596-79e131e23490.png)
