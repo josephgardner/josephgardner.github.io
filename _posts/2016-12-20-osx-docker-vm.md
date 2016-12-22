@@ -1,3 +1,8 @@
+---
+layout: post
+title: Service Fabric Windows Container
+comments: true
+---
 I've been playing with [Azure Service Fabric](https://azure.microsoft.com/en-us/services/service-fabric/) and testing out 
 the [latest preview](https://blogs.msdn.microsoft.com/azureservicefabric/2016/12/15/release-of-sdk-2-4-145-and-runtime-5-4-145-for-windows/) 
 with Windows container support. My goal is to deploy a stateless OWIN self-hosted Web API in a container to
