@@ -120,3 +120,20 @@ Docker for Windows lets you run Linux containers on Windows 10 by provisioning a
 As luck would have it, I needed to install the beta release in order to get the option to switch between linux and windows containers. The beta settings dialog includes daemon options which lets you set **insecure registries**.
 
 ![windows settings](https://cloud.githubusercontent.com/assets/1297859/21413184/7aea2f66-c7c3-11e6-8596-79e131e23490.png)
+
+#### Let's try again...
+
+Now that our client is configured to trust our insecure registry, let's try the push again.
+
+```ps
+PS C:\> docker push 10.211.55.2:5000/colorpicker
+The push refers to a repository [10.211.55.2:5000/colorpicker]
+242b7a69a21f: Pushed
+0281ebf270fd: Pushed
+4777122753b8: Pushed
+de57d9086f9a: Skipped foreign layer
+f358be10862c: Skipped foreign layer
+latest: digest: sha256:7d3ff34231abec035813d36f1cfe48c737e15ba9b6db9dd238e5c1f166bcb73d size: 1570
+```
+
+Success!
