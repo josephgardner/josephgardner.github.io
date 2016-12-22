@@ -102,7 +102,7 @@ This surprisingly worked, but gave me a TLS error:
 The push refers to a repository [10.211.55.2:5000/colorpicker]
 Get https://10.211.55.2:5000/v2/: http: server gave HTTP response to HTTPS client
 ```
-### Test an insecure registry
+### Make it insecure
 It turns out the docker client requires TLS by default, but the docs also [explain how to run it insecurely](https://docs.docker.com/registry/insecure/) for testing. To disable security, you have to edit the docker config file on the client, and whitelist the insecure registry you want to connect to.
 
 The instructions tell you to edit the docker file directly, which only applies to \*nix clients. I dug a little deeper into how to configure this for both Docker for Mac and Windows.
