@@ -82,7 +82,13 @@ ENTRYPOINT ["cmd.exe", "/k", "ColorPicker.exe"]
 The service manifest only lets you specify the name of the container, which means you have to deploy it to a registry. I don't
 want to push anything to DockerHub, so instead I decided to give [Docker Registry](https://docs.docker.com/registry/) a try.
 
-I'm using a macbook, so I followed the quick guide to run the registry as a container. I'm running Windows in a VM and tried pushing my Windows docker image to the registry running on the mac host. 
+I'm using a macbook, so I followed the quick guide to run the registry as a container.
+
+```ps
+PS C:\> docker run -d -p 5000:5000 --name registry registry:2
+```
+
+I'm running Windows in a VM and tried pushing my Windows docker image to the registry running on the mac host. 
 
 ```ps
 PS C:\> docker build -t colorpicker .
@@ -97,16 +103,16 @@ The push refers to a repository [10.211.55.2:5000/colorpicker]
 Get https://10.211.55.2:5000/v2/: http: server gave HTTP response to HTTPS client
 ```
 ### Test an insecure registry
-It turns out the docker client requires TLS by default, but the docs also [explain how to run it insecurely](https://docs.docker.com/registry/insecure/) for testing. To disable security, you have to edit the docker config file on the client.
+It turns out the docker client requires TLS by default, but the docs also [explain how to run it insecurely](https://docs.docker.com/registry/insecure/) for testing. To disable security, you have to edit the docker config file on the client, and whitelist the insecure registry you want to connect to.
 
-The instructions tell you to edit the docker file directly, which only applies to \*nix clients. I dug a little deeper into how to fix this for both Docker for Mac and Windows.
+The instructions tell you to edit the docker file directly, which only applies to \*nix clients. I dug a little deeper into how to configure this for both Docker for Mac and Windows.
 
 #### Docker for Mac
-Docker for Mac provisions a HyperKit VM based on Alpine Linux. They do some interesting stuff with git to modify files in the docker app (such as the docker file,) and then reload the VM. However, they have since added an option in advanced settings to add **insecure registries**.
+Docker for Mac provisions a HyperKit VM based on Alpine Linux. They do some interesting stuff with git to modify files in the docker app (such as a daemon.json file,) and then reload the VM. However, they have since added an option in the advanced settings dialog to add **insecure registries**.
 
 ![mac settings](https://cloud.githubusercontent.com/assets/1297859/21413186/810a81c0-c7c3-11e6-8dd1-40d8ee2e7f7b.png)
 
-If you still wish to connect to the host (for debugging, or other reason,) you have to use `screen` rather than `ssh`. Found that little nugget on [this blog](https://blog.bennycornelissen.nl/docker-for-mac-neat-fast-and-flawed/).
+If you still wish to connect to the host (for debugging, or other reasons,) you have to use `screen` rather than `ssh`. Found that little nugget on [this blog](https://blog.bennycornelissen.nl/docker-for-mac-neat-fast-and-flawed/). Any changes to the host will be lost whenever the daemon is restarted.
 
 Press enter to get a prompt. Disconnect with ctrl+a d.
 
