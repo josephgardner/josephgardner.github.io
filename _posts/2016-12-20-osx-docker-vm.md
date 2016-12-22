@@ -25,12 +25,19 @@ The push refers to a repository [10.211.55.2:5000/colorpicker]
 Get https://10.211.55.2:5000/v2/: http: server gave HTTP response to HTTPS client
 ```
 
-It turns out the registry requires a certificate by default, but the docs also [explain how to run it insecurely](https://docs.docker.com/registry/insecure/) for testing. To disable security, you have to edit the docker config file. 
+It turns out the docker client requires TLS by default, but the docs also [explain how to run it insecurely](https://docs.docker.com/registry/insecure/) for testing. To disable security, you have to edit the docker config file on the client. 
 
-**Docker for Mac** provisions a HyperKit VM based on Alpine Linux. To connect to the host, you have to use `screen` rather than `ssh`. Found that little nugget on [this blog](https://blog.bennycornelissen.nl/docker-for-mac-neat-fast-and-flawed/).
+----
+*Note for Mac users trying to connect to an insecure registry*:
+
+The instructions tell you to edit the docker file directly. **Docker for Mac** provisions a HyperKit VM based on Alpine Linux, and so the docker file isn't directly available. They do some interesting stuff with git to modify files in the docker app, and then reload the VM. However, they have since added an option in advanced settings to add **insecure registries**.
+
+If you still wish to connect to the host (for debugging, or other reason,) you have to use `screen` rather than `ssh`. Found that little nugget on [this blog](https://blog.bennycornelissen.nl/docker-for-mac-neat-fast-and-flawed/).
+
+Press enter to get a prompt. Disconnect with ctrl+a d.
 
 ```bash
 $ screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty
 ```
 
-Press enter to get a prompt. Disconnect with ctrl+a d.
+---
