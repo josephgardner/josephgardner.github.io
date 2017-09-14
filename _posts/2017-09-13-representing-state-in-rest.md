@@ -12,4 +12,4 @@ comments: true
 
 > Hypermedia As The Engine Of Application State" is [...] what makes a REST API so powerful [...] as a collection of affordances (potential actions that can [be] taken).
 
-[https://philsturgeon.uk/api/2017/06/19/representing-state-in-rest-and-graphql/](https://philsturgeon.uk/api/2017/06/19/representing-state-in-rest-and-graphql/)
+[http://philsturgeon.uk/api/2017/06/19/representing-state-in-rest-and-graphql/](http://philsturgeon.uk/api/2017/06/19/representing-state-in-rest-and-graphql/)
