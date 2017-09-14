@@ -10,6 +10,6 @@ comments: true
 
 > The data can be stored like this in the database, but exposing it in the contract is begging for trouble, as clients will always end up with a slightly different picture of the current state.
 
-> Hypermedia As The Engine Of Application State" is [...] what makes a REST API so powerful [...] as a collection of affordances (potential actions that can [be] taken).
+> "Hypermedia As The Engine Of Application State" is [...] what makes a REST API so powerful [...] as a collection of affordances (potential actions that can [be] taken).
 
 [http://philsturgeon.uk/api/2017/06/19/representing-state-in-rest-and-graphql/](http://philsturgeon.uk/api/2017/06/19/representing-state-in-rest-and-graphql/)
