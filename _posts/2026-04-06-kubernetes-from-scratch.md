@@ -43,7 +43,10 @@ func main() {
         case "POST":
             // Decode the event, stamp it, append it to the slice
             var e Event
-            json.NewDecoder(r.Body).Decode(&e)
+            if err := json.NewDecoder(r.Body).Decode(&e); err != nil {
+                http.Error(w, err.Error(), http.StatusBadRequest)
+                return
+            }
             e.Time = time.Now()
             mu.Lock()
             events = append(events, e)
@@ -54,6 +57,8 @@ func main() {
             mu.RLock()
             json.NewEncoder(w).Encode(events)
             mu.RUnlock()
+        default:
+            http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
         }
     })
     // Listen on 8080. No TLS, no auth, no nothing. It's internal.
@@ -108,14 +113,21 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
   postgres:
     image: postgres:16
     environment:
       POSTGRES_PASSWORD: events
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   redis:
     image: redis:7-alpine
 
@@ -252,7 +264,7 @@ If v2 turns out to be worse than the bug it fixed, `kubectl rollout undo deploym
 
 This is why almost nobody creates ReplicaSets directly. You create Deployments. The Deployment manages the ReplicaSet. The ReplicaSet manages the Pods. Controllers all the way down, each watching one layer and reconciling it.
 
-In practice, you'll use `kubectl rollout status deployment/hello` to watch the rollout, and `kubectl rollout undo deployment/hello` when v2 sets something on fire.
+In practice, you'll use `kubectl rollout status deployment/collector` to watch the rollout, and `kubectl rollout undo deployment/collector` when v2 sets something on fire.
 
 ## Services: finding your Pods
 
@@ -264,16 +276,16 @@ A Service gives your set of Pods a stable DNS name and IP. Traffic to the Servic
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello
+  name: collector
 spec:
   selector:
-    app: hello
+    app: collector
   ports:
     - port: 80
       targetPort: 8080
 ```
 
-Now anything inside the cluster can reach your app at `http://hello` or `http://hello.default.svc.cluster.local`.
+Now anything inside the cluster can reach your app at `http://collector` or `http://collector.default.svc.cluster.local`.
 
 Notice the `selector`. The Service doesn't know about specific Pods. It doesn't keep a list of IPs. It just says "find everything with the label `app: collector` and route traffic to it." It works like a name tag at a conference. You walk into the room and look for everyone wearing a tag that says "collector." You don't know their names. You don't know how long they've been here. People come and go all day. Doesn't matter. If they're wearing the tag, they get the next request.
 
@@ -510,18 +522,28 @@ process_resident_memory_bytes 94371840                  # ~90MB of RAM
 
 These numbers look static. A single scrape just tells you "60,328 requests have been handled, total." Not very useful on its own. The trick is scraping repeatedly.
 
-Prometheus runs inside your cluster. You tell it what to scrape using annotations on your Pod metadata. Annotations are an extension point built into every Kubernetes resource. Any tool can read them, which means any tool can add behavior to your resources without changing the schema:
+Prometheus runs inside your cluster. But here's the part that ties back to the mental model: the modern, idiomatic way to tell Prometheus what to scrape is through the Prometheus Operator—which introduces its own CRDs, `ServiceMonitor` and `PodMonitor`. These are custom resources reconciled by a controller, just like everything else in Kubernetes.
+
+A `ServiceMonitor` looks like this:
 
 ```yaml
-# Tell Prometheus to scrape this Pod
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
 metadata:
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "8080"
-    prometheus.io/path: "/metrics"
+  name: collector
+spec:
+  selector:
+    matchLabels:
+      app: collector
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
 ```
 
-Just like a Service doesn't keep a list of Pod IPs, Prometheus doesn't keep a list of scrape targets. It discovers Pods with these annotations dynamically. Pods come and go. Doesn't matter. Every 15 seconds (by default), it scrapes the path and port from the annotations and stores the result with a timestamp. Now you have a time series. If `collector_request_duration_seconds_count` was 60,328 at 3:46pm and 60,391 at 3:47pm, that's 63 requests in one minute. If `collector_request_duration_seconds_sum` went from 4,823 to 4,831, that's 8 seconds of total request time across 63 requests, so about 127ms average latency. One number is a snapshot. Two numbers over time tell a story.
+Just like a Deployment manages Pods declaratively, a `ServiceMonitor` tells the Prometheus controller which endpoints to watch. The Prometheus controller sees the new `ServiceMonitor`, reconciles it, and starts scraping your collector's `/metrics` endpoint. You write YAML describing what you want scraped. A controller makes it happen. Same pattern again.
+
+Just like a Service doesn't keep a list of Pod IPs, Prometheus doesn't keep a list of scrape targets. It discovers endpoints through `ServiceMonitor` selectors dynamically. Pods come and go. Doesn't matter. Every 15 seconds (by default), it scrapes the path and port from the spec and stores the result with a timestamp. Now you have a time series. If `collector_request_duration_seconds_count` was 60,328 at 3:46pm and 60,391 at 3:47pm, that's 63 requests in one minute. If `collector_request_duration_seconds_sum` went from 4,823 to 4,831, that's 8 seconds of total request time across 63 requests, so about 127ms average latency. One number is a snapshot. Two numbers over time tell a story.
 
 Grafana connects to Prometheus and turns those time series into dashboards. You deployed v2 at 3:47pm and the latency spike is obvious.
 
