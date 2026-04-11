@@ -24,44 +24,39 @@ import (
     "time"
 )
 
-// A simple event: who did what, and when
 type Event struct {
-    Source  string    `json:"source"`
-    Action  string    `json:"action"`
-    Time    time.Time `json:"time"`
+    Source string    `json:"source"`
+    Action string    `json:"action"`
+    Time   time.Time `json:"time"`
 }
 
 // Store everything in memory. What could go wrong?
 var (
     events []Event
-    mu     sync.RWMutex
+    mu     sync.Mutex
 )
 
 func main() {
     http.HandleFunc("/events", func(w http.ResponseWriter, r *http.Request) {
+        mu.Lock()
+        defer mu.Unlock()
+
         switch r.Method {
         case "POST":
-            // Decode the event, stamp it, append it to the slice
             var e Event
             if err := json.NewDecoder(r.Body).Decode(&e); err != nil {
                 http.Error(w, err.Error(), http.StatusBadRequest)
                 return
             }
             e.Time = time.Now()
-            mu.Lock()
             events = append(events, e)
-            mu.Unlock()
             w.WriteHeader(http.StatusCreated)
         case "GET":
-            // Return everything we've collected
-            mu.RLock()
             json.NewEncoder(w).Encode(events)
-            mu.RUnlock()
         default:
             http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
         }
     })
-    // Listen on 8080. No TLS, no auth, no nothing. It's internal.
     http.ListenAndServe(":8080", nil)
 }
 ```
@@ -436,9 +431,10 @@ kind: ConfigMap
 metadata:
   name: collector-config
 data:
+  DB_HOST: "postgres.default.svc.cluster.local"
+  DB_PORT: "5432"
+  DB_NAME: "events"
   LOG_LEVEL: "info"
-  RETENTION_DAYS: "30"
-  MAX_BATCH_SIZE: "1000"
 ```
 
 **Secrets** hold sensitive values. Your collector needs to connect to Postgres:
@@ -449,16 +445,32 @@ kind: Secret
 metadata:
   name: collector-secrets
 type: Opaque
-data:
-  POSTGRES_PASSWORD: cGFzc3dvcmQxMjM=
-  POSTGRES_CONNECTION_STRING: cG9zdGdyZXM6Ly9jb2xsZWN0b3I6cGFzc3dvcmQxMjNAcG9zdGdyZXM6NTQzMi9ldmVudHM=
+stringData:
+  DB_PASSWORD: "your-password-here"
 ```
 
-Here's something that surprises people: Kubernetes Secrets are just base64-encoded. Not encrypted. Anyone with access to the cluster can decode them. They're "secrets" in the sense that Kubernetes treats them differently from ConfigMaps (they're stored separately, they don't show up in `kubectl describe`, they can be encrypted at rest if you configure it), but out of the box, base64 is not security. It's encoding.
+Here's something that surprises people: Kubernetes Secrets are just base64-encoded. Not encrypted. (`stringData` lets you write plain values; Kubernetes encodes them before storing.) Anyone with access to the cluster can decode them. They're "secrets" in the sense that Kubernetes treats them differently from ConfigMaps (they're stored separately, they don't show up in `kubectl describe`, they can be encrypted at rest if you configure it), but out of the box, base64 is not security. It's encoding.
 
 In practice, most teams use an external secrets operator that syncs secrets from a real vault (AWS Secrets Manager, Azure Key Vault, HashiCorp Vault) into Kubernetes Secret objects. Your app never knows the difference. It just reads the Secret the normal way. But the actual secret value lives in a proper secrets manager with encryption, audit logging, and access control. The operator watches the vault for changes and reconciles them into the cluster. Same pattern again.
 
-Both ConfigMaps and Secrets can be injected into your container two ways: as environment variables or as files mounted on disk. Most applications follow a loading convention: check CLI args first, then environment variables, then config files, then defaults. Kubernetes lets you use either approach. Mount the ConfigMap as environment variables for simple key-value pairs. Mount it as a file for structured config like YAML or JSON. Your app reads from the environment or from a config file path and it works the same way it would outside of Kubernetes.
+Both ConfigMaps and Secrets can be injected into your container two ways: as environment variables or as files mounted on disk. For simple key-value pairs, environment variables are the most common choice. You wire them up in the Deployment:
+
+```yaml
+containers:
+  - name: collector
+    image: collector:v2
+    envFrom:
+      - configMapRef:
+          name: collector-config    # injects DB_HOST, DB_PORT, DB_NAME, LOG_LEVEL
+    env:
+      - name: DB_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: collector-secrets
+            key: DB_PASSWORD        # pulled individually from the Secret
+```
+
+`envFrom` pulls every key from the ConfigMap in one shot. The password comes from the Secret individually with `secretKeyRef` — you could use `envFrom` on a Secret too, but being explicit about which keys you take from a Secret is safer. Your app just reads `os.Getenv("DB_HOST")` and it works the same way it would outside of Kubernetes.
 
 The point is separation. Your image is immutable. Your config is not. They deploy independently.
 
