@@ -161,7 +161,10 @@ When that slice finishes, the task remains active while `NEXT.md` advances to
 the next evidence gap. The queue preserves strategic priority. `NEXT.md`
 prevents that priority from becoming unlimited authority.
 
-[![Agent Session Protocol continuity loop](https://gist.githubusercontent.com/josephgardner/5eb3359d1342e08d60ceba1993983cfe/raw/f03b25a4b1ba14332d549fbb660541ab8576955f/PROTOCOL_EXPLAINER.svg)](https://gist.github.com/josephgardner/5eb3359d1342e08d60ceba1993983cfe)
+[![Agent Session Protocol continuity loop](https://gist.githubusercontent.com/josephgardner/5eb3359d1342e08d60ceba1993983cfe/raw/28c287d39f87f86d2f93442209602b86fff7bf2b/PROTOCOL_EXPLAINER.svg)](https://gist.githubusercontent.com/josephgardner/5eb3359d1342e08d60ceba1993983cfe/raw/28c287d39f87f86d2f93442209602b86fff7bf2b/PROTOCOL_EXPLAINER.svg)
+
+[View the full-size explainer](https://gist.githubusercontent.com/josephgardner/5eb3359d1342e08d60ceba1993983cfe/raw/28c287d39f87f86d2f93442209602b86fff7bf2b/PROTOCOL_EXPLAINER.svg)
+&middot; [Open the protocol Gist](https://gist.github.com/josephgardner/5eb3359d1342e08d60ceba1993983cfe)
 
 ### The candidate that won and still lost
 
