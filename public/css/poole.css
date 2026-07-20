@@ -250,28 +250,6 @@ blockquote p:last-child {
 }
 
 /* Agent Session Protocol launch page */
-.protocol-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 auto 1.25rem;
-  color: #536078;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: .78rem;
-  font-weight: 750;
-}
-.protocol-nav a {
-  color: inherit;
-  text-decoration: none;
-}
-.protocol-nav a:hover,
-.protocol-nav a:focus {
-  color: #5267e8;
-}
-.protocol-home {
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
 .protocol-launch {
   color: #20283c;
 }
@@ -525,6 +503,23 @@ blockquote p:last-child {
 .protocol-origin a {
   color: #81d8cf;
   font-weight: 700;
+}
+.protocol-attribution {
+  margin: 2.75rem 0 0;
+  color: #667087;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: .78rem;
+  font-weight: 750;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.protocol-origin .protocol-attribution a {
+  color: inherit;
+  text-decoration: none;
+}
+.protocol-origin .protocol-attribution a:hover,
+.protocol-origin .protocol-attribution a:focus {
+  color: #5267e8;
 }
 @media (min-width: 42em) {
   .protocol-cards {

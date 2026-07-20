@@ -12,11 +12,6 @@ image_width: 1200
 image_height: 630
 ---
 
-<nav class="protocol-nav" aria-label="Protocol navigation">
-  <a class="protocol-home" href="/">← AlgoPlay</a>
-  <a href="https://gist.github.com/josephgardner/5eb3359d1342e08d60ceba1993983cfe">Protocol source ↗</a>
-</nav>
-
 <main class="protocol-launch">
   <section class="protocol-hero">
     <p class="protocol-eyebrow">Agent Session Protocol · V3</p>
@@ -75,5 +70,6 @@ image_height: 630
     <h2>Built in FastImg. Extracted for the next project.</h2>
     <p>The first version was a resume file in FastImg. It became separate recovery, state, next-work, and evidence artifacts; the reusable protocol followed. The implementation story explains what those files had to survive.</p>
     <a href="/continue-from-boot/">Read the implementation story →</a>
+    <p class="protocol-attribution"><a href="/">An AlgoPlay project</a></p>
   </section>
 </main>
