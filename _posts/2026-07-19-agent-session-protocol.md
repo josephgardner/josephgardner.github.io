@@ -51,13 +51,9 @@ median render time, `p90` is the time within which 90 percent of renders
 completed, and quantized configurations store model weights at lower numerical
 precision to reduce memory use.
 
-| Configuration | Size | Mean | p90 | Images/hour |
-| --- | ---: | ---: | ---: | ---: |
-| Diffusers/MPS, SDXL-Lightning | 1024 | 26.25s | 27.86s | 133 |
-| MLX, SDXL-Turbo | 1024 | 20.94s | 24.87s | 172 |
-| MLX, quantized SDXL-Turbo | 1024 | 12.58s | 15.64s | 286 |
-| MLX, quantized SDXL-Turbo | 768 | 6.53s | 7.38s | 552 |
-| MLX, quantized, style-constrained preset | 768 | 6.05s | 6.23s | 595 |
+[![FastImg measured throughput across five configurations](/public/fastimg-throughput.svg)](/public/fastimg-throughput.svg)
+
+[View the full-size throughput chart](/public/fastimg-throughput.svg)
 
 The 768px results trade resolution for throughput and are not directly
 comparable to the 1024px results. The unquantized and quantized 1024px MLX runs
