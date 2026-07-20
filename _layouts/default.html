@@ -8,7 +8,7 @@
 
     {% include sidebar.html %}
 
-    <div class="content container">
+    <div class="content container{% if page.wide %} content-wide{% endif %}">
       {{ content }}
 
       {% include comments.html %}
