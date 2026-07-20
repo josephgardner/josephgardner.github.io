@@ -33,9 +33,6 @@ The useful next move is human review of the four holdout images—or a new produ
 decision. I won’t change the renderer speculatively.</code></pre>
 </section>
 
-That is the whole promise: a fresh session arrives with a procedure, current
-truth, a durable purpose, and the authority to either make one next move or stop.
-
 FastImg is a local image renderer designed and optimized for one machine: my
 [2020 M1 MacBook Pro](https://support.apple.com/en-us/111893).
 
