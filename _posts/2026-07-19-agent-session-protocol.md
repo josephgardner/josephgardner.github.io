@@ -2,6 +2,12 @@
 layout: post
 title: Continue from Boot
 permalink: /continue-from-boot/
+description: "How a one-line boot protocol preserves evidence, decisions, and bounded next work across fresh coding-agent sessions."
+image: /public/continue-from-boot-social.png
+image_type: image/png
+image_alt: "Agent Session Protocol continuity loop from BOOT through STATE, QUEUE, NEXT, work, and checkpoint"
+image_width: 1200
+image_height: 630
 comments: true
 ---
 
