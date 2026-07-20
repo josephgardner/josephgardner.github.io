@@ -25,7 +25,7 @@ and the main queue.
 
 • Target: 2020 M1 MacBook Pro, 16 GB unified memory; MPS required.
 • Production lane: mlx_realist_gallery_v1_768.
-• Durable work: the ArtFusion explore pipeline is wired and tested.
+• Durable state: the production baseline and its evidence are current.
 • Queue: no autonomous engineering task is active; the golden path is complete.
 • Guardrail: do not promote FLUX or change the default lane without a product decision.
 
