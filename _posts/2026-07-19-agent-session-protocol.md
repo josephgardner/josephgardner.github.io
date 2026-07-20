@@ -265,6 +265,7 @@ recover the exact Python runtime that makes the GPU work, avoid re-running the
 512px tail-latency mistake, and continue the current experiment without being
 given the previous conversation.
 
-The [Agent Session Protocol Gist](https://gist.github.com/josephgardner/5eb3359d1342e08d60ceba1993983cfe)
+The [Agent Session Protocol](https://algoplay.com/agent-session-protocol/) is
+the public overview. Its [source Gist](https://gist.github.com/josephgardner/5eb3359d1342e08d60ceba1993983cfe)
 contains the current specification, schema, validator, templates, and setup
-prompt and remains the canonical source.
+prompt.

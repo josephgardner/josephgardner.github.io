@@ -3,6 +3,7 @@ layout: default
 title: Agent Session Protocol
 permalink: /agent-session-protocol/
 wide: true
+body_class: protocol-landing-page
 description: "A lightweight continuity protocol for long-running, evidence-led agent work."
 image: /public/continue-from-boot-social.png
 image_type: image/png
@@ -10,6 +11,11 @@ image_alt: "Agent Session Protocol continuity loop from BOOT through STATE, QUEU
 image_width: 1200
 image_height: 630
 ---
+
+<nav class="protocol-nav" aria-label="Protocol navigation">
+  <a class="protocol-home" href="/">← AlgoPlay</a>
+  <a href="https://gist.github.com/josephgardner/5eb3359d1342e08d60ceba1993983cfe">Protocol source ↗</a>
+</nav>
 
 <main class="protocol-launch">
   <section class="protocol-hero">

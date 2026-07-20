@@ -250,6 +250,28 @@ blockquote p:last-child {
 }
 
 /* Agent Session Protocol launch page */
+.protocol-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto 1.25rem;
+  color: #536078;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: .78rem;
+  font-weight: 750;
+}
+.protocol-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+.protocol-nav a:hover,
+.protocol-nav a:focus {
+  color: #5267e8;
+}
+.protocol-home {
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
 .protocol-launch {
   color: #20283c;
 }

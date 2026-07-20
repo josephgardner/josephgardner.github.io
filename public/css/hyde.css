@@ -156,6 +156,24 @@ a.sidebar-nav-item:focus {
   }
 }
 
+/* The protocol overview is an independent, centered landing page. */
+body.protocol-landing-page {
+  background: #f7f6f3;
+}
+body.protocol-landing-page .sidebar {
+  display: none;
+}
+body.protocol-landing-page .content {
+  padding: 1.5rem 1rem 3rem;
+}
+@media (min-width: 48em) {
+  body.protocol-landing-page .content.content-wide {
+    max-width: 70rem;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 3rem;
+  }
+}
+
 
 /*
  * Reverse layout
