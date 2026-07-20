@@ -9,11 +9,28 @@ image_alt: "Agent Session Protocol continuity loop from BOOT through STATE, QUEU
 image_width: 1200
 image_height: 630
 comments: true
+hero: true
+hero_eyebrow: "Field Notes · Agent Session Protocol"
+hero_dek: "One short prompt, followed by enough durable context to make one safe next change."
+hero_image: /public/continue-from-boot-social.png
+hero_image_alt: "The Agent Session Protocol continuity loop"
 ---
 
-```text
-> continue from boot
-```
+<section class="session-demo" aria-label="Example fresh-session recovery">
+  <div class="session-demo-prompt"><span>&gt;</span> continue from boot</div>
+  <div class="session-demo-response">
+    <p class="session-demo-label">Recovery complete</p>
+    <dl>
+      <div><dt>BOOT</dt><dd>Protocol validated; canonical workspace recovered.</dd></div>
+      <div><dt>STATE</dt><dd>Current truth and the last checkpoint are loaded.</dd></div>
+      <div><dt>QUEUE</dt><dd>Durable task: the fastest acceptable renderer for one M1 laptop.</dd></div>
+      <div><dt>NEXT</dt><dd>Run one bounded comparison; do not reopen the approved production lane.</dd></div>
+    </dl>
+  </div>
+</section>
+
+That is the whole promise: a fresh session arrives with a procedure, a current
+picture, a durable purpose, and permission for one next move.
 
 FastImg is a local image renderer designed and optimized for one machine: my
 [2020 M1 MacBook Pro](https://support.apple.com/en-us/111893).

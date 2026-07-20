@@ -2,6 +2,21 @@
 layout: default
 ---
 <div class="post">
+    {% if page.hero %}
+    <header class="post-hero">
+        {% if page.hero_eyebrow %}<p class="post-hero-eyebrow">{{ page.hero_eyebrow }}</p>{% endif %}
+        <h1 class="post-title">{{ page.title }}</h1>
+        {% if page.hero_dek %}<p class="post-hero-dek">{{ page.hero_dek }}</p>{% endif %}
+        {% if page.hero_image %}<img class="post-hero-image" src="{{ page.hero_image }}" alt="{{ page.hero_image_alt }}">{% endif %}
+        <div class="post-meta">
+            <span class="post-date">{{ page.date | date_to_string }}</span>
+            <span class="comment-count">
+                <i class='fa fa-comment'></i>
+                <a href="{{ site.url }}{{ page.url }}#disqus_thread">Comments</a>
+            </span>
+        </div>
+    </header>
+    {% else %}
     <h1 class="post-title">{{ page.title }}</h1>
     <div class="post-meta">
         <span class="post-date">{{ page.date | date_to_string }}</span>
@@ -10,6 +25,7 @@ layout: default
             <a href="{{ site.url }}{{ page.url }}#disqus_thread">Comments</a>
         </span>
     </div>
+    {% endif %}
     {{ content }}
 </div>
 <div class="related">
