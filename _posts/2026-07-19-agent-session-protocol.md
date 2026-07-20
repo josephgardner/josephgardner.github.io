@@ -111,22 +111,31 @@ recover one result faithfully and still choose the wrong next experiment.
 
 The production command fit in a README. The measurement history fit in a
 benchmark journal, although the journal eventually became too large to read at
-the start of every session. Priorities fit in a task queue. Together, those
-records still left an operational question unanswered.
+the start of every session. Neither gave a fresh session a compact answer to
+three immediate questions.
 
 <aside class="pull-quote" aria-label="Continuity principle">
   <p>Continuity means knowing what is true, what was decided, and what comes
   next.</p>
 </aside>
 
-I added the Agent Session Protocol to the repository: separate artifacts for
-the recovery procedure, current experimental state, durable task priority,
-authorized next work, and evidence history.
+The first version was `START_HERE.md`, one resume file containing runtime facts,
+benchmark state, recent commits, and the next task. I soon split it into
+`BOOT.md` for recovery, `STATE.json` for current truth, and `NEXT.md` for the
+next bounded step, while the benchmark journal kept the detailed evidence.
+
+Those files were committed to FastImg first. Less than twenty minutes later, I
+generalized them into the first Agent Session Protocol Gist.
+
+Continued use exposed another problem. A project's durable priority can survive
+many sessions; `NEXT.md` should describe only the next bounded step. I added a
+queue to FastImg for the durable work and then carried that distinction back
+into the Gist.
 
 ### A queue is not a session
 
-The protocol separates files by how often they change and by the question they
-answer:
+The result is five file roles, separated by how often they change and the
+question they answer:
 
 ```text
 BOOT.md     How does a fresh session recover and work?
