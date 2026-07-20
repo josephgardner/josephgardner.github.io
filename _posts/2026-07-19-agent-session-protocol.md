@@ -17,20 +17,24 @@ hero_image_alt: "The Agent Session Protocol continuity loop"
 ---
 
 <section class="session-demo" aria-label="Example fresh-session recovery">
-  <div class="session-demo-prompt"><span>&gt;</span> continue from boot</div>
-  <div class="session-demo-response">
-    <p class="session-demo-label">Recovery complete</p>
-    <dl>
-      <div><dt>BOOT</dt><dd>Protocol validated; canonical workspace recovered.</dd></div>
-      <div><dt>STATE</dt><dd>Current truth and the last checkpoint are loaded.</dd></div>
-      <div><dt>QUEUE</dt><dd>Durable task: the fastest acceptable renderer for one M1 laptop.</dd></div>
-      <div><dt>NEXT</dt><dd>Run one bounded comparison; do not reopen the approved production lane.</dd></div>
-    </dl>
-  </div>
+  <div class="session-demo-bar"><span></span><span></span><span></span><strong>codex · FastImg</strong></div>
+  <pre class="session-demo-output"><code><span class="session-demo-command">$ continue from boot</span>
+
+I’m oriented. I read AGENTS.md, STATE.json, NEXT.md, the model handoff,
+and the main queue.
+
+• Target: 2020 M1 MacBook Pro, 16 GB unified memory; MPS required.
+• Production lane: mlx_realist_gallery_v1_768.
+• Durable work: the ArtFusion explore pipeline is wired and tested.
+• Queue: no autonomous engineering task is active; the golden path is complete.
+• Guardrail: do not promote FLUX or change the default lane without a product decision.
+
+The useful next move is human review of the four holdout images—or a new product
+decision. I won’t change the renderer speculatively.</code></pre>
 </section>
 
-That is the whole promise: a fresh session arrives with a procedure, a current
-picture, a durable purpose, and permission for one next move.
+That is the whole promise: a fresh session arrives with a procedure, current
+truth, a durable purpose, and the authority to either make one next move or stop.
 
 FastImg is a local image renderer designed and optimized for one machine: my
 [2020 M1 MacBook Pro](https://support.apple.com/en-us/111893).
