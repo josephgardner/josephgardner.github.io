@@ -114,9 +114,9 @@ benchmark journal, although the journal eventually became too large to read at
 the start of every session. Priorities fit in a task queue. Together, those
 records still left an operational question unanswered.
 
-<aside class="pull-quote" aria-label="The unanswered operational question">
-  <p>Which bounded experiment should this session run next&mdash;without
-  reopening a decision that had already been made?</p>
+<aside class="pull-quote" aria-label="Continuity principle">
+  <p>Continuity means knowing what is true, what was decided, and what comes
+  next.</p>
 </aside>
 
 I added the Agent Session Protocol to the repository: separate artifacts for
