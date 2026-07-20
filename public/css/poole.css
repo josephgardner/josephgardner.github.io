@@ -230,10 +230,9 @@ blockquote p:last-child {
 /* Magazine-style pull quotes for a post's central question or conclusion. */
 .post .pull-quote {
   margin: 2.5rem 0;
-  padding: 1.35rem 0 1.5rem;
+  padding: .35rem 0 .45rem 1.25rem;
   color: #313131;
-  border-top: .2rem solid #6a9fb5;
-  border-bottom: 1px solid #d9e2e8;
+  border-left: .25rem solid #6a9fb5;
   font-family: "Abril Fatface", Georgia, serif;
   font-size: 1.4rem;
   font-weight: 400;
@@ -245,10 +244,8 @@ blockquote p:last-child {
 }
 @media (min-width: 58em) {
   .post .pull-quote {
-    margin-right: -2.5rem;
     margin-left: -2.5rem;
-    padding-right: 2.5rem;
-    padding-left: 2.5rem;
+    padding-left: 2.25rem;
   }
 }
 
