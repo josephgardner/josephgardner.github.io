@@ -16,19 +16,7 @@ hero_image: /public/continue-from-boot-social.png
 hero_image_alt: "The Agent Session Protocol continuity loop"
 ---
 
-Want to use the protocol without reading the story first? Give your coding agent
-this URL and instruction:
-
-```text
-Read https://algoplay.com/agent-session-protocol/ and set this repository up to continue from boot.
-```
-
-The agent can follow the linked specification and tailor the protocol files to
-the repository. After setup, a fresh session starts with `continue from boot`.
-
-> **Here for the protocol rather than the image-rendering details?**
-> [Jump to “Recovering the experiment.”](#recovering-the-experiment) The next two
-> sections explain the technical problem that forced the protocol to exist.
+[**Click here to use the Agent Session Protocol.**](https://algoplay.com/agent-session-protocol/)
 
 <section class="session-demo" aria-label="Example fresh-session recovery">
   <div class="session-demo-bar"><span></span><span></span><span></span><strong>codex · FastImg</strong></div>
@@ -68,6 +56,9 @@ This was not a general Apple Silicon benchmark. FastImg has one production
 target. The machine is a `MacBookPro17,1` with 16 GB of unified memory and an
 8-core GPU. CPU fallback does not count. The goal is sustained local generation
 on that machine.
+
+> **Want to skip the image-renderer implementation details?**
+> [Jump to “Recovering the experiment.”](#recovering-the-experiment)
 
 ### The six-second result
 
