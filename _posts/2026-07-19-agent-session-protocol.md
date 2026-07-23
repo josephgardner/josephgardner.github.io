@@ -16,6 +16,20 @@ hero_image: /public/continue-from-boot-social.png
 hero_image_alt: "The Agent Session Protocol continuity loop"
 ---
 
+Want to use the protocol without reading the story first? Give your coding agent
+this URL and instruction:
+
+```text
+Read https://algoplay.com/agent-session-protocol/ and set this repository up to continue from boot.
+```
+
+The agent can follow the linked specification and tailor the protocol files to
+the repository. After setup, a fresh session starts with `continue from boot`.
+
+> **Here for the protocol rather than the image-rendering details?**
+> [Jump to “Recovering the experiment.”](#recovering-the-experiment) The next two
+> sections explain the technical problem that forced the protocol to exist.
+
 <section class="session-demo" aria-label="Example fresh-session recovery">
   <div class="session-demo-bar"><span></span><span></span><span></span><strong>codex · FastImg</strong></div>
   <pre class="session-demo-output"><code><span class="session-demo-command">$ continue from boot</span>
@@ -111,6 +125,7 @@ production_default_lane
 
 Those values can point at the same configuration. They do not have to.
 
+<a id="recovering-the-experiment"></a>
 ### Recovering the experiment
 
 Nine months later, the benchmark record offered several plausible wrong turns.
