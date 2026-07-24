@@ -16,21 +16,22 @@ hero_image: /public/continue-from-boot-social.png
 hero_image_alt: "The Agent Session Protocol continuity loop"
 ---
 
+[**Click here to use the Agent Session Protocol.**](https://algoplay.com/agent-session-protocol/)
+
 <section class="session-demo" aria-label="Example fresh-session recovery">
-  <div class="session-demo-bar"><span></span><span></span><span></span><strong>codex · FastImg</strong></div>
+  <div class="session-demo-bar"><span></span><span></span><span></span><strong>coding agent · project</strong></div>
   <pre class="session-demo-output"><code><span class="session-demo-command">$ continue from boot</span>
 
-I’m oriented. I read AGENTS.md, STATE.json, NEXT.md, the model handoff,
-and the main queue.
+I’m oriented. I read the repository instructions, current state, active queue
+item, and bounded next step.
 
-• Target: 2020 M1 MacBook Pro, 16 GB unified memory; MPS required.
-• Production lane: mlx_realist_gallery_v1_768.
-• Durable state: the production baseline and its evidence are current.
-• Queue: no autonomous engineering task is active; the golden path is complete.
-• Guardrail: do not promote FLUX or change the default lane without a product decision.
+• Current task: finish the active work without expanding its scope.
+• State: the latest checkpoint and recorded decisions are consistent.
+• Next: implement the smallest authorized slice and run its recorded checks.
+• Guardrail: do not reopen settled decisions or modify unrelated work.
 
-The useful next move is human review of the four holdout images—or a new product
-decision. I won’t change the renderer speculatively.</code></pre>
+I’ll continue with that slice, record the evidence, and leave a coherent
+checkpoint for the next session.</code></pre>
 </section>
 
 FastImg is a local image renderer designed and optimized for one machine: my
@@ -54,6 +55,9 @@ This was not a general Apple Silicon benchmark. FastImg has one production
 target. The machine is a `MacBookPro17,1` with 16 GB of unified memory and an
 8-core GPU. CPU fallback does not count. The goal is sustained local generation
 on that machine.
+
+> **Want to skip the image-renderer implementation details?**
+> [Jump to “Recovering the experiment.”](#recovering-the-experiment)
 
 ### The six-second result
 
@@ -111,6 +115,7 @@ production_default_lane
 
 Those values can point at the same configuration. They do not have to.
 
+<a id="recovering-the-experiment"></a>
 ### Recovering the experiment
 
 Nine months later, the benchmark record offered several plausible wrong turns.
