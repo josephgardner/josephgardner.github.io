@@ -148,21 +148,28 @@ This is the moment Kubernetes starts to make sense. Not because containers sudde
 
 ## What Kubernetes actually is
 
-Kubernetes is an API-driven control system.
+You now have three machines running your application. In Kubernetes, each machine is called a **node**. Install it across all three, and you now have a **cluster**.
 
-You create API objects that record intent: run this image, keep three copies, expose them under this name. The API server validates those objects and persists cluster state in etcd. Controllers observe objects through the Kubernetes API and make changes that move the system toward the requested state.
+One machine runs the **control plane**: the API server, scheduler, and controllers. We’ll come back to each of these pieces shortly.
 
-That distinction matters. Controllers do not normally watch etcd or poke random processes directly. They watch resource changes through the API server, usually through caches and work queues. They create or update other objects, report what they observed in `status`, and reconcile again whenever something relevant changes. They also retry, because the world can change between reading state and acting on it.
+The other two are worker nodes. Each worker runs a small agent called the **kubelet**, which manages containers on that machine. 
 
-The thermostat analogy is still useful. You set a desired temperature. The thermostat observes the room and turns equipment on or off. But Kubernetes is more like a building full of small thermostats. One controller maintains replica counts. Another manages rollouts. Another materializes Service endpoints. The scheduler chooses nodes. The kubelet on each node turns a Pod specification into running containers.
 
-A Kubernetes resource is the contract between those pieces. Its `spec` says what you want. Its `status` reports what the system has observed. The useful abstractions are not invented because YAML needed more nouns; they emerge from different operational behaviors that need to be remembered and reconciled.
+Instead of connecting to each worker node and starting containers yourself, you use the **API server** to tell the cluster which containers should be running. Kubernetes stores that request as a resource.
 
-You can write YAML, call the API directly, or use another tool that calls it for you. YAML is only a convenient representation. The API and the control loops are the system.
+The smallest resource you can create to run those containers is called a **Pod**. When you create a Pod, the **scheduler** looks at the Pod’s requirements, finds a worker node with room for it, and assigns the Pod to that node.
+
+The kubelet on that node sees the assignment, starts the requested containers, and reports what happened back to Kubernetes.
+
+Each resource type is paired with specialized code called a **controller**. The resource describes what you want, and the controller knows what actions to take to make it happen.
+
+A controller watches the resources it understands. It reads what you asked for in the resource's `spec`, checks what currently exists, and makes changes to close the gap. It then updates the resource's `status` with a snapshot of what it observed so people and other parts of Kubernetes can see it.
+
+Think of a thermostat. You set a desired temperature. The thermostat observes the room and turns equipment on or off. A controller follows the same pattern: observe, compare, act, and repeat.
 
 ## The Pod
 
-Start with the smallest deployable unit: a Pod. A Pod can contain multiple tightly coupled containers, but most application Pods have one main container, so we'll start there.
+A Pod can contain multiple tightly coupled containers, but most application Pods have one main container, so we'll start there.
 
 ```yaml
 apiVersion: v1
@@ -196,7 +203,7 @@ Pods are scheduled once in their lifetime. A dead Pod is not picked up and moved
 
 ## ReplicaSets: "I want three of these, always"
 
-A ReplicaSet owns a Pod template and a replica count. Its controller continuously asks a narrow question: how many Pods matching this selector exist, and how many should exist?
+A ReplicaSet is paired with a controller that understands ReplicaSets. The resource contains a Pod template and a replica count. If it asks for three Pods and only two exist, the controller creates another Pod.
 
 ```yaml
 apiVersion: apps/v1
@@ -221,7 +228,7 @@ spec:
               containerPort: 8080
 ```
 
-If only two matching Pods exist, the ReplicaSet creates another Pod object. The scheduler then chooses a node for it, and that node's kubelet starts its container. Each component does one job.
+The new Pod becomes a request for the rest of Kubernetes. The scheduler chooses a node for it, and that node's kubelet starts its container. Each part does one job.
 
 Now desired replicas is 3 and actual replicas is 3. If a Pod disappears with a failed node, the ReplicaSet creates a replacement. No SSH. No server list in a shell script.
 
