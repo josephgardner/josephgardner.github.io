@@ -148,13 +148,17 @@ This is the moment Kubernetes starts to make sense. Not because containers sudde
 
 ## What Kubernetes actually is
 
-You now have three machines running your application. Kubernetes calls those machines **nodes**. If you install Kubernetes on them, you now have a **cluster**.
+You now have three machines running your application. You install Kubernetes across them, turning the three machines into a **cluster**.
 
-Instead of connecting to each node and starting containers yourself, you use the Kubernetes API to tell it which containers should be running. Kubernetes stores that request as a resource.
+One machine runs the **control plane**: the API server, scheduler, and controllers, which we’ll explain shortly. The other two join the cluster as **worker nodes**.
 
-The smallest resource you can create to run those containers is called a **Pod**. When you create a Pod, a separate Kubernetes service called the **scheduler** looks at the Pod's requirements, finds a node with room for it, and assigns the Pod to that node.
+Each worker node runs a small Kubernetes agent called the **kubelet**. The kubelet manages the containers on that machine.
 
-Each node runs a small Kubernetes agent called the **kubelet**. The kubelet manages the containers on that machine. When it sees that a Pod has been assigned to its node, it starts the requested containers and reports what happened back to Kubernetes.
+Instead of connecting to each worker node and starting containers yourself, you use the **API server** to tell the cluster which containers should be running. Kubernetes stores that request as a resource.
+
+The smallest resource you can create to run those containers is called a **Pod**. When you create a Pod, the **scheduler** looks at the Pod’s requirements, finds a worker node with room for it, and assigns the Pod to that node.
+
+The kubelet on that node sees the assignment, starts the requested containers, and reports what happened back to Kubernetes.
 
 You can think of each managed resource type as being paired with specialized code called a **controller**. The resource describes what you want, and the controller knows what actions to take to make it happen.
 
