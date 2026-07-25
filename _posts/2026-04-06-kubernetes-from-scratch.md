@@ -150,7 +150,7 @@ This is the moment Kubernetes starts to make sense. Not because containers sudde
 
 You now have three machines running your application. In Kubernetes, each machine is called a **node**. Install it across all three, and you now have a **cluster**.
 
-One machine runs the **control plane**: the API server, scheduler, and controllers, which we’ll explain shortly. The other two join the cluster as **worker nodes**.
+One machine runs the **control plane**: the API server, scheduler, and controllers. The other two are worker nodes. Each worker runs a small agent called the **kubelet**, which starts and manages containers on that machine. We’ll come back to each of these pieces shortly.
 
 Each worker node runs a small Kubernetes agent called the **kubelet**. The kubelet manages the containers on that machine.
 
