@@ -152,7 +152,6 @@ You now have three machines running your application. In Kubernetes, each machin
 
 One machine runs the **control plane**: the API server, scheduler, and controllers. The other two are worker nodes. Each worker runs a small agent called the **kubelet**, which starts and manages containers on that machine. We’ll come back to each of these pieces shortly.
 
-Each worker node runs a small Kubernetes agent called the **kubelet**. The kubelet manages the containers on that machine.
 
 Instead of connecting to each worker node and starting containers yourself, you use the **API server** to tell the cluster which containers should be running. Kubernetes stores that request as a resource.
 
