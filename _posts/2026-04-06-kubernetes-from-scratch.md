@@ -148,7 +148,7 @@ This is the moment Kubernetes starts to make sense. Not because containers sudde
 
 ## What Kubernetes actually is
 
-You now have three machines running your application. In Kubernetes, each machine is called a node. Install it across all three, and you now have a cluster.
+You now have three machines running your application. In Kubernetes, each machine is called a **node**. Install it across all three, and you now have a **cluster**.
 
 One machine runs the **control plane**: the API server, scheduler, and controllers, which we’ll explain shortly. The other two join the cluster as **worker nodes**.
 
