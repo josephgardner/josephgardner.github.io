@@ -161,7 +161,7 @@ The smallest resource you can create to run those containers is called a **Pod**
 
 The kubelet on that node sees the assignment, starts the requested containers, and reports what happened back to Kubernetes.
 
-You can think of each managed resource type as being paired with specialized code called a **controller**. The resource describes what you want, and the controller knows what actions to take to make it happen.
+Each resource type is paired with specialized code called a **controller**. The resource describes what you want, and the controller knows what actions to take to make it happen.
 
 A controller watches the resources it understands. It reads what you asked for in the resource's `spec`, checks what currently exists, and makes changes to close the gap. It then updates the resource's `status` with a snapshot of what it observed so people and other parts of Kubernetes can see it.
 
