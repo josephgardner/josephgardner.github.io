@@ -148,21 +148,17 @@ This is the moment Kubernetes starts to make sense. Not because containers sudde
 
 ## What Kubernetes actually is
 
-Kubernetes is an API-driven control system.
+You now have three machines running your application. Kubernetes calls those machines **nodes**.
 
-You create API objects that record intent: run this image, keep three copies, expose them under this name. The API server validates those objects and persists cluster state in etcd. Controllers observe objects through the Kubernetes API and make changes that move the system toward the requested state.
+Instead of connecting to each node and starting containers yourself, you use the Kubernetes API to tell it which containers should be running. Kubernetes stores that request as a resource.
 
-That distinction matters. Controllers do not normally watch etcd or poke random processes directly. They watch resource changes through the API server, usually through caches and work queues. They create or update other objects, report what they observed in `status`, and reconcile again whenever something relevant changes. They also retry, because the world can change between reading state and acting on it.
+The smallest resource you can create to run those containers is called a **Pod**. When you create a Pod, a separate Kubernetes service called the **scheduler** looks at the Pod's requirements, finds a node with room for it, and assigns the Pod to that node.
 
-The thermostat analogy is still useful. You set a desired temperature. The thermostat observes the room and turns equipment on or off. But Kubernetes is more like a building full of small thermostats. One controller maintains replica counts. Another manages rollouts. Another materializes Service endpoints. The scheduler chooses nodes. The kubelet on each node turns a Pod specification into running containers.
-
-A Kubernetes resource is the contract between those pieces. Its `spec` says what you want. Its `status` reports what the system has observed. The useful abstractions are not invented because YAML needed more nouns; they emerge from different operational behaviors that need to be remembered and reconciled.
-
-You can write YAML, call the API directly, or use another tool that calls it for you. YAML is only a convenient representation. The API and the control loops are the system.
+Each node runs a **kubelet**, which manages the containers on that machine. The kubelet sees that the Pod has been assigned to its node and starts the requested containers.
 
 ## The Pod
 
-Start with the smallest deployable unit: a Pod. A Pod can contain multiple tightly coupled containers, but most application Pods have one main container, so we'll start there.
+A Pod can contain multiple tightly coupled containers, but most application Pods have one main container, so we'll start there.
 
 ```yaml
 apiVersion: v1
