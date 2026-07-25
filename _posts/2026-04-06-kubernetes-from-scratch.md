@@ -154,7 +154,13 @@ Instead of connecting to each node and starting containers yourself, you use the
 
 The smallest resource you can create to run those containers is called a **Pod**. When you create a Pod, a separate Kubernetes service called the **scheduler** looks at the Pod's requirements, finds a node with room for it, and assigns the Pod to that node.
 
-Each node runs a **kubelet**, which manages the containers on that machine. The kubelet sees that the Pod has been assigned to its node and starts the requested containers.
+Each node runs a small Kubernetes agent called the **kubelet**. The kubelet manages the containers on that machine. When it sees that a Pod has been assigned to its node, it starts the requested containers and reports what happened back to Kubernetes.
+
+You can think of each managed resource type as being paired with specialized code called a **controller**. The resource describes what you want, and the controller knows what actions to take to make it happen.
+
+A controller watches the resources it understands. It reads what you asked for in the resource's `spec`, checks what currently exists, and makes changes to close the gap. It then updates the resource's `status` with a snapshot of what it observed so people and other parts of Kubernetes can see it.
+
+Think of a thermostat. You set a desired temperature. The thermostat observes the room and turns equipment on or off. A controller follows the same pattern: observe, compare, act, and repeat.
 
 ## The Pod
 
@@ -192,7 +198,7 @@ Pods are scheduled once in their lifetime. A dead Pod is not picked up and moved
 
 ## ReplicaSets: "I want three of these, always"
 
-A ReplicaSet owns a Pod template and a replica count. Its controller continuously asks a narrow question: how many Pods matching this selector exist, and how many should exist?
+A ReplicaSet is paired with a controller that understands ReplicaSets. The resource contains a Pod template and a replica count. If it asks for three Pods and only two exist, the controller creates another Pod.
 
 ```yaml
 apiVersion: apps/v1
@@ -217,7 +223,7 @@ spec:
               containerPort: 8080
 ```
 
-If only two matching Pods exist, the ReplicaSet creates another Pod object. The scheduler then chooses a node for it, and that node's kubelet starts its container. Each component does one job.
+The new Pod becomes a request for the rest of Kubernetes. The scheduler chooses a node for it, and that node's kubelet starts its container. Each part does one job.
 
 Now desired replicas is 3 and actual replicas is 3. If a Pod disappears with a failed node, the ReplicaSet creates a replacement. No SSH. No server list in a shell script.
 
