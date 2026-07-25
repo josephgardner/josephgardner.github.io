@@ -148,7 +148,7 @@ This is the moment Kubernetes starts to make sense. Not because containers sudde
 
 ## What Kubernetes actually is
 
-You now have three machines running your application. Kubernetes calls those machines **nodes**.
+You now have three machines running your application. Kubernetes calls those machines **nodes**. If you install Kubernetes on them, you now have a **cluster**.
 
 Instead of connecting to each node and starting containers yourself, you use the Kubernetes API to tell it which containers should be running. Kubernetes stores that request as a resource.
 
