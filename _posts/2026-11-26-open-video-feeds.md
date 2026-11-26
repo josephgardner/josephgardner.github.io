@@ -30,18 +30,9 @@ problem into two parts. A publisher (or connector) understands a source and
 produces a standard feed. A reader understands the feed and decides how to
 display and play the videos.
 
-```text
-Hacker News    Reddit    A friend's list    A website
-     |            |             |              |
-  Connector    Connector    Publisher      Connector
-     |            |             |              |
-     +------------+-------------+--------------+
-                   Public video feeds
-                            |
-                    Any compatible reader
-                            |
-                     Playback provider
-```
+<figure style="max-width: 24rem; margin: 1.5rem auto;">
+  <img src="/public/retoob-feed-flow.svg" alt="Two independent publishers turn community and personal video lists into public JSON feeds. Any compatible reader subscribes directly to those feeds and hands playback to the original provider." width="360" height="346" style="display: block; width: 100%; height: auto; margin: 0;">
+</figure>
 
 A publisher can be a Python script, a scheduled job, or just a JSON file someone
 maintains by hand. It doesn't need a Retoob account, an API key issued by Retoob,
