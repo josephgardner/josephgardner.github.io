@@ -4,6 +4,9 @@ title: "What If Video Feeds Worked Like RSS?"
 permalink: /open-video-feeds/
 description: "Retoob Feed Profile 1 is a draft, JSON Feed-based format for sharing curated video lists independently of the apps that discover or play them."
 comments: true
+hero: true
+hero_image: https://raw.githubusercontent.com/josephgardner/retoob-feeds/29ee7cd03267f29afebcda743bf59df6500af0b9/assets/screenshots/home.png
+hero_image_alt: "Retoob TV home screen showing curated video feeds."
 ---
 
 I wanted to watch the videos people share on Hacker News and Reddit on my TV.
